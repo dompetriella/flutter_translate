@@ -3,6 +3,31 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/l10n/app_localizations.dart';
 import 'package:flutter_translate/l10n/app_localizations_en.dart';
 
+// Steps to get localization running
+
+// create the lib/l10n folder.  It needs to be specifically named that
+
+// create the app_en.arb file in the lib/l10n folder.
+// Useful to also create another file like app_es.arb (spanish) for testing
+
+// create the l10n.yaml file at the root of the project (not lib)
+// the defaults in this project will work (it's mostly for directory structure)
+// if no l10n.yaml file is provided, it will be generated
+// and generated files will be in the .dart_tool/flutter_gen folder
+
+// add the following as dependencies in pubspec.yaml
+// flutter_localizations:
+//    sdk: flutter
+// intl: any
+
+// add generate = true in the flutter section of pubspec.yaml
+
+// run flutter gen-l10n in the terminal
+// note: this is automatically ran during flutter pub get
+
+// this will generate app_localizations_{languageCode}.dart
+// and app_localizations.dart which is used below
+
 void main() {
   runApp(const MyApp());
 }
@@ -25,10 +50,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // this is get the system language
+
     return MaterialApp(
       title: 'Localization Demo',
 
-      // an easy way to
+      // this is the currently used language throughout the app
+      // this can be set manually using Locale('{languageCode}')
       locale: Locale(currentLanguageCode),
 
       // AppLocalizations comes from adding the .arb files in lib/l10n
@@ -69,6 +97,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    // You can access generated localizations with
+    // the AppLocalizations.of(context) and its .arb key
     String getLanguageFromLanguageCode(String languageCode) {
       switch (languageCode) {
         case 'en':
@@ -116,11 +146,10 @@ class _HomePageState extends State<HomePage> {
           Center(
             child: Column(
               children: [
-                // You can access generated localizations with
-                // the AppLocalizations.of(context) and its .arb key
                 Text(AppLocalizations.of(context).helloWorld),
                 IconButton(
                   onPressed: () {
+                    // this an example of automatic translating material widgets
                     showDatePicker(
                       context: context,
                       firstDate: DateTime.now(),
